@@ -1,13 +1,13 @@
 
-name: Terraform Workflow-snyk
+name: Terraform Workflow
 
 on:
   push:
     branches:
-      - main
+      - main 
   pull_request:
-
-
+    
+  
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -19,9 +19,10 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform_run'
+    name: 'Terraform_plan'
     runs-on: ubuntu-latest
-  
+    
+
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -58,12 +59,16 @@ jobs:
     - name: Run Snyk to check configuration files for security issues
         # Snyk can be used to break the build when it detects security issues.
         # In this case we want to upload the issues to GitHub Code Scanning
-      continue-on-error: false
+      continue-on-error: true
       uses: snyk/actions/iac@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
    
-
+      # On push to "main", build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform Apply
+      #if: github.event_name == 'push'
+      run: terraform apply -auto-approve 
       
       
 
