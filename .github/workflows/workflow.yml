@@ -1,5 +1,5 @@
 
-name: Terraform Workflow
+name: Terraform Workflow-snyk
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform_plan'
+    name: 'Terraform'
     runs-on: ubuntu-latest
     
 
@@ -54,7 +54,7 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan
-      if: github.event_name == 'pull_request'
+      #if: github.event_name == 'pull_request'
       
 
      - name: Run Snyk to check configuration files for security issues
