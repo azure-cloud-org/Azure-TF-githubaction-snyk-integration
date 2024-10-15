@@ -2,13 +2,12 @@
 name: Terraform Workflow-snyk
 
 on:
-  pull_request:
-    branches:
-      - '**'
   push:
     branches:
-      - main 
-  
+      - main
+  pull_request:
+
+
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -21,8 +20,7 @@ permissions:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    
-
+  
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
