@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: 'Terraform_plan'
     runs-on: ubuntu-latest
     
 
