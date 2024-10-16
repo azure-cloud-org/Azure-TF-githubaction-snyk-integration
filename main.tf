@@ -58,6 +58,7 @@ resource "azurerm_subnet" "mysubnet-snyk" {
   address_prefixes     = ["10.5.0.0/27"]
 }
 
+
 ##creating allow all inbound firewall rule to verify synk SAST detection
 resource "azurerm_network_security_group" "example-synk" {
   name                = "example-nsg"
@@ -82,7 +83,7 @@ resource "azurerm_subnet_network_security_group_association" "example" {
   network_security_group_id = azurerm_network_security_group.example-synk.id
 }
 
-##Storage account creation
+##Storage account creation- unprotected storage account
 resource "azurerm_storage_account" "example" {
   name                     = "sa21112022"
   resource_group_name      = azurerm_resource_group.myrg-snyk-2.name
