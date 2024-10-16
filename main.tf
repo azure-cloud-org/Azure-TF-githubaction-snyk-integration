@@ -84,7 +84,7 @@ resource "azurerm_subnet_network_security_group_association" "example" {
 
 ##Storage account creation
 resource "azurerm_storage_account" "example" {
-  name                     = "sa-21112022"
+  name                     = "sa21112022"
   resource_group_name      = azurerm_resource_group.myrg-snyk-2.name
   location                 = azurerm_resource_group.myrg-snyk-2.location
   account_tier             = "Standard"
