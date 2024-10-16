@@ -52,22 +52,24 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan
-      #if: github.event_name == 'pull_request'
+      run: terraform plan -out=tfplan
+      
       
 
-    - name: Run Snyk to check configuration files for security issues
-        # Snyk can be used to break the build when it detects security issues.
-        # In this case we want to upload the issues to GitHub Code Scanning
-      continue-on-issues: false
-      uses: snyk/actions/iac@master
+    - name: Run Snyk to check for security issues
+      id: snyk_test
+      uses: snyk/actions/setup@v1
+      with:
+        version: 'v1.617.0'
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      
+      
    
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
-      #if: github.event_name == 'push'
+      if: github.ref == 'refs/heads/main' && steps.snyk_test.conclusion == 'success'
       run: terraform apply -auto-approve 
       
       
