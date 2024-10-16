@@ -58,7 +58,7 @@ jobs:
 
     - name: Run Snyk to check for security issues
       id: snyk_test
-      uses: snyk/actions/setup@v1
+      uses: snyk/actions/setup@master
       with:
         version: 'v1.617.0'
       env:
